@@ -6,6 +6,9 @@ from game import Game
 
 class Main:
 
+    icon = pygame.image.load('imgs/chessimg.png')
+    pygame.display.set_icon(icon)
+
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -16,7 +19,7 @@ class Main:
 
         while True:
             self.game.show_bg(self.screen)
-
+            self.game.show_pieces(self.screen)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

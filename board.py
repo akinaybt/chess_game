@@ -3,7 +3,7 @@ from square import Square
 from piece import Piece
 from pawn import Pawn
 
-class Board():
+class Board:
     def __init__(self):
         self.squares = [[0, 0, 0, 0, 0, 0, 0, 0,] for col in range(COLS)]
 

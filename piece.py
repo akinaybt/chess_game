@@ -1,7 +1,7 @@
 import pygame
 import os
 
-class Piece():
+class Piece:
     def __init__(self, name, position, colour, value, image_url=None, board=None):
         self.name = name
         self.position = position
