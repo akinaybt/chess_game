@@ -1,4 +1,3 @@
-#screen
 import pygame
 
 from board import Board
@@ -23,8 +22,7 @@ class Game:
             for col in range(COLS):
                 if self.board.squares[row][col].has_piece():
                     piece = self.board.squares[row][col].piece
-
-                    img = pygame.image.load(piece)
-                    img = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
-
-                    surface.blit(img, img)
+                    img = pygame.image.load(piece.image_url)
+                    img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
+                    piece.image_rect = img.get_rect(center=img_center)
+                    surface.blit(img, piece.image_rect)
