@@ -43,3 +43,13 @@ class Board:
             self.squares[row_other][0] = Square(row_other, 0, Rook(colour))
             self.squares[row_other][7] = Square(row_other, 7, Rook(colour))
 
+        # queen
+        for col in range(COLS):
+            self.squares[row_other][3] = Square(row_other, 3, Queen(colour))
+
+        # kings
+        for col in range(COLS):
+            self.squares[row_other][4] = Square(row_other, 4, King(colour))
+
+
+
