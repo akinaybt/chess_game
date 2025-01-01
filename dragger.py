@@ -14,7 +14,7 @@ class Dragger:
         self.piece.set_image_url()
         image_url = self.piece.image_url
         img = pygame.image.load(image_url)
-        img_center = self.x_coordinate + SQSIZE // 2, self.y_coordinate + SQSIZE // 2
+        img_center = (self.x_coordinate, self.y_coordinate)
         self.piece.image_rect = img.get_rect(center=img_center)
         surface.blit(img, self.piece.image_rect)
 
