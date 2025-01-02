@@ -2,7 +2,7 @@ import pygame
 import sys
 from const import *
 from game import Game
-
+from move_calc import CalculateMoves
 
 class Main:
 
@@ -20,7 +20,9 @@ class Main:
     def mainloop(self):
 
         while True:
+            # Show methods
             self.game.show_bg(self.screen)
+            self.game.show_moves(self.screen)
             self.game.show_pieces(self.screen)
 
             if self.dragger.dragging:
@@ -35,17 +37,24 @@ class Main:
                     clicked_row = self.dragger.y_coordinate // SQSIZE
                     clicked_col = self.dragger.x_coordinate // SQSIZE
 
-                    # The method checks if the square has a piece
+                    # It checks if the square has a piece
                     if self.board.squares[clicked_row][clicked_col].has_piece():
                         piece = self.board.squares[clicked_row][clicked_col].piece
+                        CalculateMoves.calculate_move(piece, clicked_row, clicked_col)
                         self.dragger.save_initial_position(event.pos)
                         self.dragger.drag_piece(piece)
+                        # Show methods
+                        self.game.show_bg(self.screen)
+                        self.game.show_moves(self.screen)
+                        self.game.show_pieces(self.screen)
 
                 # Mouse motion
                 elif event.type == pygame.MOUSEMOTION:
                     if self.dragger.dragging:
                         self.dragger.update_mouse_coordinate(event.pos)
+                        # Show methods
                         self.game.show_bg(self.screen)
+                        self.game.show_moves(self.screen)
                         self.game.show_pieces(self.screen)
                         self.dragger.update_position(self.screen)
 

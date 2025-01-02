@@ -1,4 +1,3 @@
-import pygame
 import os
 
 class Piece:
@@ -8,6 +7,7 @@ class Piece:
         self.value = value
         self.image_url = image_url
         self.set_image_url()
+        self.moves = []
         self.made_move = False
         self.image_rect = image_rect
 
@@ -16,15 +16,11 @@ class Piece:
             f'imgs/{self.colour}_{self.name}.png'
         )
 
-    # def move(self, new_position):
-    #     self.position = new_position
+    def add_move(self, move):
+        self.moves.append(move)
 
-    def possible_moves(self, board):
+    def possible_moves(self, piece):
         raise NotImplementedError("This method should be redefined in derived classes.")
 
     def is_valid_move(self, position, board):
         return position in self.possible_moves(board)
-
-
-
-
