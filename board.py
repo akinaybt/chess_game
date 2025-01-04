@@ -15,6 +15,19 @@ class Board:
         self._add_pieces('white')
         self._add_pieces('black')
 
+    def move(self, piece, move, testing=False):
+        initial = move.initial
+        final = move.final
+
+        # console board move update
+        self.squares[initial.row][initial.col].piece = None
+        self.squares[final.row][final.col].piece = piece
+
+        piece.made_move = True
+
+    def valid_move(self, piece, move):
+        return move in piece.moves
+
     def _create(self):
         for row in range(ROWS):
             for col in range(COLS):

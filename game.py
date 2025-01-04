@@ -7,6 +7,7 @@ from const import *
 
 class Game:
     def __init__(self):
+        self.next_player = 'white'
         self.board = Board()
         self.dragger = Dragger()
 
@@ -43,3 +44,6 @@ class Game:
                 rect = (move.final.col * SQSIZE, move.final.row * SQSIZE, SQSIZE, SQSIZE)
 
                 pygame.draw.rect(surface, colour, rect)
+
+    def next_turn(self):
+        self.next_player = 'black' if self.next_player == 'white' else 'white'

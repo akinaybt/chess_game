@@ -2,7 +2,9 @@ import pygame
 import sys
 from const import *
 from game import Game
-from move_calc import CalculateMoves
+from square import Square
+from move import Move
+from move_operations import CalculateMoves
 
 class Main:
 
@@ -40,13 +42,14 @@ class Main:
                     # It checks if the square has a piece
                     if self.board.squares[clicked_row][clicked_col].has_piece():
                         piece = self.board.squares[clicked_row][clicked_col].piece
-                        CalculateMoves.calculate_move(piece, clicked_row, clicked_col)
-                        self.dragger.save_initial_position(event.pos)
-                        self.dragger.drag_piece(piece)
-                        # Show methods
-                        self.game.show_bg(self.screen)
-                        self.game.show_moves(self.screen)
-                        self.game.show_pieces(self.screen)
+                        if piece.colour == self.game.next_player:
+                            CalculateMoves.calculate_move(piece, clicked_row, clicked_col)
+                            self.dragger.save_initial_position(event.pos)
+                            self.dragger.drag_piece(piece)
+                            # Show methods
+                            self.game.show_bg(self.screen)
+                            self.game.show_moves(self.screen)
+                            self.game.show_pieces(self.screen)
 
                 # Mouse motion
                 elif event.type == pygame.MOUSEMOTION:
@@ -60,6 +63,28 @@ class Main:
 
                 # Click release
                 elif event.type == pygame.MOUSEBUTTONUP:
+
+                    if self.dragger.dragging:
+                        self.dragger.update_mouse_coordinate(event.pos)
+
+                        # Conversion between the position and the board logical position
+                        released_row = self.dragger.y_coordinate // SQSIZE
+                        released_col = self.dragger.x_coordinate // SQSIZE
+
+                        # Creating a possible move
+                        initial = Square(self.dragger.initial_row, self.dragger.initial_col)
+                        final = Square(released_row, released_col)
+                        move = Move(initial, final)
+
+                        # Checking if the move is valid
+                        if self.board.valid_move(self.dragger.piece, move):
+                            self.board.move(self.dragger.piece, move)
+
+                            # Show methods
+                            self.game.show_bg(self.screen)
+                            self.game.show_pieces(self.screen)
+                            self.game.next_turn()
+
                     self.dragger.undrag_piece()
 
                 # Quit application
