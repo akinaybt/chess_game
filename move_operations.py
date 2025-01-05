@@ -5,47 +5,18 @@ from pawn import Pawn
 from rook import Rook
 from queen import Queen
 from square import Square
-from board import Board
 from move import Move
 
 class CalculateMoves:
-    """ Class CalculateMove is designed to calculate all possible moves for pieces. """
+
     @staticmethod
-    def calculate_move(piece, row, col):
-        board = Board()
-        def knight_moves():
-            knight_possible_moves = [
-                (row - 2, col + 1),
-                (row - 1, col + 2),
-                (row + 1, col + 2),
-                (row + 2, col + 1),
-                (row + 2, col - 1),
-                (row + 1, col - 2),
-                (row - 1, col - 2),
-                (row - 2, col - 1),
-
-            ]
-
-            for possible_move in knight_possible_moves:
-                possible_move_row, possible_move_col = possible_move
-
-                if Square.is_within_bounds(possible_move_row, possible_move_col):
-                    if board.squares[possible_move_row][possible_move_col].empty_or_rival(piece.colour):
-                        # Creating a square for a new move
-                        initial = Square(row, col)
-                        final = Square(possible_move_row, possible_move_col)
-                        # Creating and appending a new valid move
-                        move = Move(initial, final)
-                        piece.add_move(move)
-
+    def calculate_move(piece, row, col, board):
         def pawn_moves():
-            # Checking if a pawn made the first move or not
             steps = 1 if piece.made_move else 2
 
             # Possible vertical moves
             start = row + piece.direction
-            end = row + (piece.direction * (steps + 1 ))
-
+            end = row + (piece.direction * (1 + steps))
             for possible_move_row in range(start, end, piece.direction):
                 if Square.is_within_bounds(possible_move_row):
                     if board.squares[possible_move_row][col].is_empty():
@@ -57,9 +28,11 @@ class CalculateMoves:
                         piece.add_move(move)
 
                     # If a square is not empty, it is blocked
-                    else: break
+                    else:
+                        break
                 # If a square is not in range
-                else: break
+                else:
+                    break
 
             # Possible diagonal moves
             possible_move_row = row + piece.direction
@@ -72,6 +45,28 @@ class CalculateMoves:
                         initial = Square(row, col)
                         final = Square(possible_move_row, possible_move_col)
                         # Creating and appending a new move
+                        move = Move(initial, final)
+                        piece.add_move(move)
+
+        def knight_moves():
+            knight_moves = [
+                (row - 2, col + 1),
+                (row - 1, col + 2),
+                (row + 1, col + 2),
+                (row + 2, col + 1),
+                (row + 2, col - 1),
+                (row + 1, col - 2),
+                (row - 1, col - 2),
+                (row - 2, col - 1),
+            ]
+            # Possible vertical moves
+            for possible_move in knight_moves:
+                possible_move_row, possible_move_col = possible_move
+
+                if Square.is_within_bounds(possible_move_row, possible_move_col):
+                    if board.squares[possible_move_row][possible_move_col].empty_or_rival(piece.colour):
+                        initial = Square(row, col)
+                        final = Square(possible_move_row, possible_move_col)
                         move = Move(initial, final)
                         piece.add_move(move)
 
@@ -139,23 +134,31 @@ class CalculateMoves:
 
         if isinstance(piece, Pawn):
             pawn_moves()
+
         elif isinstance(piece, Knight):
             knight_moves()
+
         elif isinstance(piece, Bishop):
             bishop_moves = [
-                (-1, 1), (-1, -1), (1, 1), (1, -1)
+                (-1, 1), (-1, -1), (1, 1), (1, -1),
             ]
             straight_line_moves(bishop_moves)
+
         elif isinstance(piece, Rook):
             rook_moves = [
                 (-1, 0), (1, 0), (0, -1), (0, 1)
             ]
             straight_line_moves(rook_moves)
+
         elif isinstance(piece, Queen):
             queen_moves = [
                 (-1, 1), (-1, -1), (1, 1), (1, -1),
                 (-1, 0), (1, 0), (0, -1), (0, 1)
             ]
             straight_line_moves(queen_moves)
+
         elif isinstance(piece, King):
             king_moves()
+
+
+
