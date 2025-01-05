@@ -30,13 +30,14 @@ class Board:
         self.last_move = move
 
     def valid_move(self, piece, move):
+        if not move in piece.moves:
+            return False
         if not Square.is_within_bounds(move.final.row, move.final.col):
             return False
         # Basic check - prevent moving to a square with a friendly piece
         if (self.squares[move.final.row][move.final.col].piece and
                 self.squares[move.final.row][move.final.col].piece.colour == piece.colour):
             return False
-
         return True
 
     def _create(self):
