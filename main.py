@@ -80,8 +80,11 @@ class Main:
 
                         # Checking if the move is valid
                         if self.board.valid_move(self.dragger.piece, move):
+                            captured = self.board.squares[released_row][released_col].has_piece()
                             self.board.move(self.dragger.piece, move)
 
+                            #sounds
+                            self.game.play_sound(captured)
                             # Show methods
                             self.game.show_bg(self.screen)
                             self.game.show_pieces(self.screen)
