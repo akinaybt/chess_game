@@ -1,5 +1,7 @@
 import pygame
 import sys
+
+import board
 from const import *
 from game import Game
 from square import Square
@@ -43,7 +45,7 @@ class Main:
                     if self.board.squares[clicked_row][clicked_col].has_piece():
                         piece = self.board.squares[clicked_row][clicked_col].piece
                         if piece.colour == self.game.next_player:
-                            CalculateMoves.calculate_move(piece, clicked_row, clicked_col)
+                            CalculateMoves.calculate_move(piece, clicked_row, clicked_col, self.board)
                             self.dragger.save_initial_position(event.pos)
                             self.dragger.drag_piece(piece)
                             # Show methods
