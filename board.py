@@ -10,12 +10,12 @@ from square import Square
 class Board:
     def __init__(self):
         self.squares = [[0, 0, 0, 0, 0, 0, 0, 0] for col in range(COLS)]
-
+        self.last_move = None
         self._create()
         self._add_pieces('white')
         self._add_pieces('black')
 
-    def move(self, piece, move, testing=False):
+    def move(self, piece, move):
         initial = move.initial
         final = move.final
 
@@ -25,8 +25,19 @@ class Board:
 
         piece.made_move = True
 
+        piece.clear_moves()
+
+        self.last_move = move
+
     def valid_move(self, piece, move):
-        return move in piece.moves
+        if not Square.is_within_bounds(move.final.row, move.final.col):
+            return False
+        # Basic check - prevent moving to a square with a friendly piece
+        if (self.squares[move.final.row][move.final.col].piece and
+                self.squares[move.final.row][move.final.col].piece.colour == piece.colour):
+            return False
+
+        return True
 
     def _create(self):
         for row in range(ROWS):

@@ -45,5 +45,7 @@ class Game:
 
                 pygame.draw.rect(surface, colour, rect)
 
+
     def next_turn(self):
         self.next_player = 'black' if self.next_player == 'white' else 'white'
+
