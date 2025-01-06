@@ -1,4 +1,5 @@
 from const import *
+from move import Move
 from pawn import Pawn
 from knight import Knight
 from bishop import Bishop
@@ -15,13 +16,54 @@ class Board:
         self._add_pieces('white')
         self._add_pieces('black')
 
+    def check_promotion(self, piece, final):
+        if final.row == 0 or final.row == 7:
+            option = input(f"Select a piece to promote to (Q, R, B, K): ").upper()
+            print(option)
+            if option == "Q":
+                self.squares[final.row][final.col].piece = Queen(piece.colour)
+            elif option == "R":
+                self.squares[final.row][final.col].piece = Rook(piece.colour)
+            elif option == "B":
+                self.squares[final.row][final.col].piece = Bishop(piece.colour)
+            elif option == "K":
+                self.squares[final.row][final.col].piece = Knight(piece.colour)
+            else:
+                print("Invalid option. Piece not promoted.")
+
+    def castling(self, initial, final):
+        return abs(initial.col - final.col) == 2
+
     def move(self, piece, move):
+        global rook, rook_move
         initial = move.initial
         final = move.final
 
-        # console board move update
+        # Console board move update
         self.squares[initial.row][initial.col].piece = None
         self.squares[final.row][final.col].piece = piece
+
+        # Pawn promotion
+        if isinstance(piece, Pawn):
+            self.check_promotion(piece, final)
+
+        # King castling
+        if isinstance(piece, King):
+            if self.castling(initial, final):
+                # If castling to the left, rook is on initial.col 0
+                # if move.final.col == 2:  # Correct condition for left castling
+                #     rook = piece.left_rook
+                #     rook_move = Move(Square(initial.row, 0), Square(final.row, final.col + 1))
+                # If castling to the right, rook is on initial.col 7
+                if move.final.col == 6:
+                    rook = piece.right_rook
+                    rook_move = Move(Square(initial.row, 7), Square(final.row, final.col - 1))
+
+                self.squares[rook_move.initial.row][rook_move.initial.col].piece = None
+                self.squares[rook_move.final.row][rook_move.final.col].piece = rook
+                rook.made_move = True
+
+
 
         piece.made_move = True
 
