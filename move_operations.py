@@ -132,6 +132,54 @@ class CalculateMoves:
                         move = Move(initial, final)
                         piece.add_move(move)
 
+            if not piece.made_move:
+                # Left castling
+                # left_rook = board.squares[row][0].piece
+                # if isinstance(left_rook, Rook):
+                #     if not left_rook.made_move:
+                #         for column in range(1, 4):
+                #             # Checks if there are pieces between the king and the rook, if yes then castling is not possible
+                #             if board.squares[row][column].has_piece():
+                #                 break
+                #             if column == 3:
+                #                 piece.lef_rook = left_rook
+                #
+                #                 # Rook's move
+                #                 initial = Square(row, 0)
+                #                 final = Square(row, 3)
+                #                 move = Move(initial, final)
+                #                 left_rook.add_move(move)
+                #
+                #                 # King's move
+                #                 initial = Square(row, col)
+                #                 final = Square(row, 2)
+                #                 move = Move(initial, final)
+                #                 piece.add_move(move)
+                #                 break
+
+                # Right castling
+                    right_rook = board.squares[row][7].piece
+                    if isinstance(right_rook, Rook):
+                        if not right_rook.made_move:
+                            for column in range(5, 7):
+                                # Checks if there are pieces between the king and the rook, if yes then castling is not possible
+                                if board.squares[row][column].has_piece():
+                                    break
+                                if column == 6:
+                                    piece.right_rook = right_rook
+                                    # Rook's move
+                                    initial = Square(row, 5)
+                                    final = Square(row, 7)
+                                    move = Move(initial, final)
+                                    right_rook.add_move(move)
+                                    # King's move
+                                    initial = Square(row, col)
+                                    final = Square(row, 6)
+                                    move = Move(initial, final)
+                                    piece.add_move(move)
+                                    break
+
+
         if isinstance(piece, Pawn):
             pawn_moves()
 
@@ -159,6 +207,4 @@ class CalculateMoves:
 
         elif isinstance(piece, King):
             king_moves()
-
-
 
