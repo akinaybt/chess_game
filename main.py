@@ -26,6 +26,7 @@ class Main:
         while True:
             # Show methods
             self.game.show_bg(self.screen)
+            self.game.show_last_move(self.screen)
             self.game.show_moves(self.screen)
             self.game.show_pieces(self.screen)
 
@@ -50,6 +51,7 @@ class Main:
                             self.dragger.drag_piece(piece)
                             # Show methods
                             self.game.show_bg(self.screen)
+                            self.game.show_last_move(self.screen)
                             self.game.show_moves(self.screen)
                             self.game.show_pieces(self.screen)
 
@@ -59,6 +61,7 @@ class Main:
                         self.dragger.update_mouse_coordinate(event.pos)
                         # Show methods
                         self.game.show_bg(self.screen)
+                        self.game.show_last_move(self.screen)
                         self.game.show_moves(self.screen)
                         self.game.show_pieces(self.screen)
                         self.dragger.update_position(self.screen)
@@ -87,6 +90,7 @@ class Main:
                             self.game.play_sound(captured)
                             # Show methods
                             self.game.show_bg(self.screen)
+                            self.game.show_moves(self.screen)
                             self.game.show_pieces(self.screen)
                             self.game.next_turn()
 
