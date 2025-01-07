@@ -31,11 +31,13 @@ class Board:
             else:
                 print("Invalid option. Piece not promoted.")
 
+    # def en_passant(self, initial, final):
+    #     return abs(initial.row - final.row) == 2
+
     def castling(self, initial, final):
         return abs(initial.col - final.col) == 2
 
     def move(self, piece, move):
-        global rook, rook_move
         initial = move.initial
         final = move.final
 
@@ -46,6 +48,7 @@ class Board:
         # Pawn promotion
         if isinstance(piece, Pawn):
             self.check_promotion(piece, final)
+
 
         # King castling
         if isinstance(piece, King):
@@ -63,8 +66,6 @@ class Board:
                 self.squares[rook_move.final.row][rook_move.final.col].piece = rook
                 rook.made_move = True
 
-
-
         piece.made_move = True
 
         piece.clear_moves()
@@ -74,11 +75,11 @@ class Board:
     def valid_move(self, piece, move):
         if not move in piece.moves:
             return False
+
         if not Square.is_within_bounds(move.final.row, move.final.col):
             return False
         # Basic check - prevent moving to a square with a friendly piece
-        if (self.squares[move.final.row][move.final.col].piece and
-                self.squares[move.final.row][move.final.col].piece.colour == piece.colour):
+        if self.squares[move.final.row][move.final.col].piece and self.squares[move.final.row][move.final.col].piece.colour == piece.colour:
             return False
         return True
 

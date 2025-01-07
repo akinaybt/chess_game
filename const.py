@@ -1,6 +1,6 @@
 #Screen
-WIDTH = 700
-HEIGHT = 700
+WIDTH = 680
+HEIGHT = 680
 
 #Board
 ROWS = 8

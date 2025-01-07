@@ -76,23 +76,27 @@ class Main:
                         released_row = self.dragger.y_coordinate // SQSIZE
                         released_col = self.dragger.x_coordinate // SQSIZE
 
-                        # Creating a possible move
-                        initial = Square(self.dragger.initial_row, self.dragger.initial_col)
-                        final = Square(released_row, released_col)
-                        move = Move(initial, final)
+                        if not Square.is_within_bounds(released_row, released_col):
+                            self.dragger.return_piece()
+                        else:
+                            # Creating a possible move
+                            initial = Square(self.dragger.initial_row, self.dragger.initial_col)
+                            final = Square(released_row, released_col)
+                            move = Move(initial, final)
 
                         # Checking if the move is valid
-                        if self.board.valid_move(self.dragger.piece, move):
-                            captured = self.board.squares[released_row][released_col].has_piece()
-                            self.board.move(self.dragger.piece, move)
+                            if self.board.valid_move(self.dragger.piece, move):
+                                captured = self.board.squares[released_row][released_col].has_piece()
+                                self.board.move(self.dragger.piece, move)
 
-                            #sounds
-                            self.game.play_sound(captured)
-                            # Show methods
-                            self.game.show_bg(self.screen)
-                            self.game.show_moves(self.screen)
-                            self.game.show_pieces(self.screen)
-                            self.game.next_turn()
+                                #sounds
+                                self.game.play_sound(captured)
+                                # Show methods
+                                self.game.show_bg(self.screen)
+                                self.game.show_moves(self.screen)
+                                self.game.show_moves(self.screen)
+                                self.game.show_pieces(self.screen)
+                                self.game.next_turn()
 
                     self.dragger.undrag_piece()
 
