@@ -50,11 +50,11 @@ class Board:
         # King castling
         if isinstance(piece, King):
             if self.castling(initial, final):
-                # If castling to the left, rook is on initial.col 0
-                # if move.final.col == 2:  # Correct condition for left castling
-                #     rook = piece.left_rook
-                #     rook_move = Move(Square(initial.row, 0), Square(final.row, final.col + 1))
-                # If castling to the right, rook is on initial.col 7
+                #If castling to the left, rook is on initial.col 0
+                if move.final.col == 2:  # Correct condition for left castling
+                    rook = piece.left_rook
+                    rook_move = Move(Square(initial.row, 0), Square(final.row, final.col + 1))
+                #If castling to the right, rook is on initial.col 7
                 if move.final.col == 6:
                     rook = piece.right_rook
                     rook_move = Move(Square(initial.row, 7), Square(final.row, final.col - 1))
