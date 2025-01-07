@@ -40,7 +40,8 @@ class CalculateMoves:
 
             for possible_move_col in possible_move_cols:
                 if Square.is_within_bounds(possible_move_row, possible_move_col):
-                    if board.squares[possible_move_row][possible_move_col].has_rival_piece(piece.colour):
+                    target_square = board.squares[possible_move_row][possible_move_col]
+                    if target_square.has_rival_piece(piece.colour):
                         # Creating an initial and final move squares
                         initial = Square(row, col)
                         final = Square(possible_move_row, possible_move_col)
@@ -64,7 +65,8 @@ class CalculateMoves:
                 possible_move_row, possible_move_col = possible_move
 
                 if Square.is_within_bounds(possible_move_row, possible_move_col):
-                    if board.squares[possible_move_row][possible_move_col].empty_or_rival(piece.colour):
+                    target_square = board.squares[possible_move_row][possible_move_col]
+                    if target_square.empty_or_rival(piece.colour):
                         initial = Square(row, col)
                         final = Square(possible_move_row, possible_move_col)
                         move = Move(initial, final)
@@ -78,9 +80,10 @@ class CalculateMoves:
 
                 while True:
                     if Square.is_within_bounds(possible_move_row, possible_move_col):
+                        target_square = board.squares[possible_move_row][possible_move_col]
 
                         # Checking if a square is empty, then it will continue looping
-                        if board.squares[possible_move_row][possible_move_col].is_empty():
+                        if target_square.is_empty():
                             # Creating and appending squares of a new possible move
                             initial = Square(row, col)
                             final = Square(possible_move_row, possible_move_col)
@@ -88,7 +91,7 @@ class CalculateMoves:
                             piece.add_move(move)
 
                         # Checking if a square has an enemy piece
-                        if board.squares[possible_move_row][possible_move_col].has_rival_piece(piece.colour):
+                        if target_square.has_rival_piece(piece.colour):
                             # Creating and appending squares of a new possible move
                             initial = Square(row, col)
                             final = Square(possible_move_row, possible_move_col)
@@ -97,7 +100,7 @@ class CalculateMoves:
                             break
 
                         # Checking if a square has a team piece, then it will break
-                        if board.squares[possible_move_row][possible_move_col].has_team_piece(piece.colour):
+                        if target_square.has_team_piece(piece.colour):
                             break
 
                     else:
@@ -124,7 +127,8 @@ class CalculateMoves:
                 possible_move_row, possible_move_col = possible_move
 
                 if Square.is_within_bounds(possible_move_row, possible_move_col):
-                    if board.squares[possible_move_row][possible_move_col].empty_or_rival(piece.colour):
+                    target_square = board.squares[possible_move_row][possible_move_col]
+                    if target_square.empty_or_rival(piece.colour):
                         # Creating a square for a new move
                         initial = Square(row, col)
                         final = Square(possible_move_row, possible_move_col)
@@ -207,4 +211,3 @@ class CalculateMoves:
 
         elif isinstance(piece, King):
             king_moves()
-

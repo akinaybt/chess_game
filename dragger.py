@@ -29,6 +29,11 @@ class Dragger:
         self.piece = piece
         self.dragging = True
 
+    def return_piece(self):
+        self.piece.row = self.initial_row
+        self.piece.col = self.initial_col
+        self.undrag_piece()
+
     def undrag_piece(self):
         self.piece = None
         self.dragging = False
