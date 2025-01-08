@@ -1,3 +1,6 @@
+import pygame
+from pygame import display, mouse
+
 from const import *
 from move import Move
 from pawn import Pawn
@@ -7,29 +10,60 @@ from rook import Rook
 from queen import Queen
 from king import King
 from square import Square
+from button import Button
 
 class Board:
     def __init__(self):
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.squares = [[0, 0, 0, 0, 0, 0, 0, 0] for col in range(COLS)]
         self.last_move = None
         self._create()
         self._add_pieces('white')
         self._add_pieces('black')
+        self.fill = (0, 0, 0)
 
     def check_promotion(self, piece, final):
         if final.row == 0 or final.row == 7:
-            option = input(f"Select a piece to promote to (Q, R, B, K): ").upper()
-            print(option)
-            if option == "Q":
-                self.squares[final.row][final.col].piece = Queen(piece.colour)
-            elif option == "R":
-                self.squares[final.row][final.col].piece = Rook(piece.colour)
-            elif option == "B":
-                self.squares[final.row][final.col].piece = Bishop(piece.colour)
-            elif option == "K":
-                self.squares[final.row][final.col].piece = Knight(piece.colour)
-            else:
-                print("Invalid option. Piece not promoted.")
+            promotion_screen = True
+
+            BUTTON_QUEEN = Button(180, 180, 160, 160, (255, 250, 250),
+                                  (255, 255, 255), "monospace", (0, 0, 0), "Queen")
+            BUTTON_ROOK = Button(350, 180, 160, 160, (255, 255, 255),
+                                 (255, 255, 255), "monospace", (0, 0, 0), "Rook")
+            BUTTON_BISHOP = Button(180, 350, 160, 170, (255, 255, 255),
+                                   (255, 255, 255), "monospace", (0, 0, 0), "Bishop")
+            BUTTON_KNIGHT = Button(350, 350, 160, 170, (255, 255, 255),
+                                   (255, 255, 255), "monospace", (0, 0, 0), "Knight")
+
+            while promotion_screen:
+                self.screen.fill((0, 0, 0))
+                BUTTON_QUEEN.showButton(self.screen)
+                BUTTON_ROOK.showButton(self.screen)
+                BUTTON_BISHOP.showButton(self.screen)
+                BUTTON_KNIGHT.showButton(self.screen)
+
+                mouse_pos = mouse.get_pos()
+                mouse_click = mouse.get_pressed()
+
+                if BUTTON_QUEEN.focusCheck(mouse_pos, mouse_click):
+                    self.squares[final.row][final.col].piece = Queen(piece.colour)
+                    promotion_screen = False
+                elif BUTTON_ROOK.focusCheck(mouse_pos, mouse_click):
+                    self.squares[final.row][final.col].piece = Rook(piece.colour)
+                    promotion_screen = False
+                elif BUTTON_BISHOP.focusCheck(mouse_pos, mouse_click):
+                    self.squares[final.row][final.col].piece = Bishop(piece.colour)
+                    promotion_screen = False
+                elif BUTTON_KNIGHT.focusCheck(mouse_pos, mouse_click):
+                    self.squares[final.row][final.col].piece = Knight(piece.colour)
+                    promotion_screen = False
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        exit()
+
+                display.update()
 
     # def en_passant(self, initial, final):
     #     return abs(initial.row - final.row) == 2
