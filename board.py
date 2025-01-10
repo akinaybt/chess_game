@@ -13,6 +13,30 @@ from square import Square
 from button import Button
 
 class Board:
+    """
+       Represents the chessboard for the game, managing its state and providing utility methods
+       for game actions such as moves, castling, pawn promotion, and piece placement.
+
+       Attributes:
+           screen : The display surface for the chessboard.
+           squares : A list representing the squares of the chessboard, each holding a Square object.
+           last_move: The last move made on the board.
+           fill : Background color for the chessboard.
+
+       Methods:
+           check_promotion(piece, final):
+               Handles the logic for pawn promotion when a pawn reaches the last rank.
+           castling(initial, final):
+               Checks if a move qualifies as a castling move.
+           move(piece, move):
+               Executes a move on the board, updating its state.
+           valid_move(piece, move):
+               Validates whether a given move is legal for a piece.
+           _create():
+               Initializes the board by creating square objects for each position.
+           _add_pieces(colour):
+               Places pieces on the board for the specified color ('white' or 'black').
+       """
     def __init__(self):
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.squares = [[0, 0, 0, 0, 0, 0, 0, 0] for col in range(COLS)]
@@ -23,6 +47,7 @@ class Board:
         self.fill = (0, 0, 0)
 
     def check_promotion(self, piece, final):
+        """The function handles pawn promotion logic."""
         if final.row == 0 or final.row == 7:
             promotion_screen = True
 
@@ -65,13 +90,13 @@ class Board:
 
                 display.update()
 
-    # def en_passant(self, initial, final):
-    #     return abs(initial.row - final.row) == 2
 
     def castling(self, initial, final):
+        """The function checks if the move is a castling move."""
         return abs(initial.col - final.col) == 2
 
     def move(self, piece, move):
+        """The function executes a move on the board."""
         initial = move.initial
         final = move.final
 
@@ -107,6 +132,7 @@ class Board:
         self.last_move = move
 
     def valid_move(self, piece, move):
+        """The function checks if a move is valid."""
         if not move in piece.moves:
             return False
 
@@ -118,11 +144,13 @@ class Board:
         return True
 
     def _create(self):
+        """The function creates the board squares."""
         for row in range(ROWS):
             for col in range(COLS):
                 self.squares[row][col] = Square(row, col)
 
     def _add_pieces(self, colour):
+        """The function adds pieces to the board."""
         row_pawn, row_other = (6, 7) if colour == 'white' else (1, 0)
 
         # row of pawns

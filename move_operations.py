@@ -8,9 +8,16 @@ from square import Square
 from move import Move
 
 class CalculateMoves:
+    """
+    Represents calculations for a given piece's valid moves.
 
+    Methods:
+        calculate_move(piece, row, col, board):
+        Calculates the valid moves for a given piece.
+    """
     @staticmethod
     def calculate_move(piece, row, col, board):
+        """Calculates the valid moves for a given piece."""
         def pawn_moves():
             steps = 1 if piece.made_move else 2
 

@@ -1,7 +1,5 @@
 import pygame
 import sys
-
-import board
 from const import *
 from game import Game
 from square import Square
@@ -9,7 +7,21 @@ from move import Move
 from move_operations import CalculateMoves
 
 class Main:
+    """
+       The main application class for the chess game. It initializes the game, handles user interactions,
+       and manages the main event loop for rendering the game and processing input.
 
+       Attributes:
+           icon : The application icon loaded from an image file.
+           screen : The main display surface for the game.
+           game (Game): The core game logic and state manager.
+           board (Board): The chessboard, managing the state of pieces and moves.
+           dragger (Dragger): The piece drag-and-drop manager.
+
+       Methods:
+           mainloop():
+               Runs the main event loop for the game, handling user input and updating the display.
+       """
     icon = pygame.image.load('imgs/chessimg.png')
     pygame.display.set_icon(icon)
 
