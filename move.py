@@ -1,4 +1,11 @@
 class Move:
+    """
+        Represents a move from one square to another square.
+
+        Attributes:
+            initial : The initial square of the move.
+            final : The final square of the move.
+    """
     def __init__(self, initial, final):
         self.initial = initial
         self.final = final
