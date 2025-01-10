@@ -26,7 +26,7 @@ The list of branches:
     * pawn.py, knight.py, bishop.py, rook.py, queen.py, king.py - are files with classes of the pieces.
 * board.py - in this file we created a class of chessBoard and initialize starting positions of the pieces.
 * button.py - here is implemented a class Button which is used while choosing a piece in pawn promotion.
-* config.py - (Артём допишет)
+* config.py - some configurations for the game, mostly responsible for the sounds and font.
 * const.py - this file contains the dimension of the board and number of rows and columns.
 * dragger.py - in this file we developed a class Dragger which is responsible to drag pieces.
 * game.py - this file contains a class Game. the initialization of the game takes place in that class.

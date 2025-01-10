@@ -6,6 +6,27 @@ from const import *
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 class Button:
+    """
+        Represents buttons for the interface of some function in the game during pawn promotion.
+        Creates buttons and tracks user mouse actions.
+
+        Attributes:
+            x: x coordinate of the button.
+            y: y coordinate of the button.
+            sx: last x coordinate of the button on the screen.
+            sy: last y coordinate of the button on the screen.
+            bcolour: button colour.
+            fbcolour: rectangle colour used to draw the button.
+            font: button font.
+            fcolour: font colour.
+            text: text of the button.
+
+        Methods:
+            showButton(self, screen):
+                Draws the button on the screen regarding its coordinates.
+            focusCheck(self, screen):
+                Checks if the button has been focused by the users mouse.
+        """
 
     def __init__(self, x, y, sx, sy, bcolour, fbcolour, font, fcolour, text):
         self.x = x

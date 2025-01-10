@@ -51,7 +51,7 @@ class Board:
         if final.row == 0 or final.row == 7:
             promotion_screen = True
 
-            BUTTON_QUEEN = Button(180, 180, 160, 160, (255, 250, 250),
+            BUTTON_QUEEN = Button(180, 180, 160, 160, (255, 255, 255),
                                   (255, 255, 255), "monospace", (0, 0, 0), "Queen")
             BUTTON_ROOK = Button(350, 180, 160, 160, (255, 255, 255),
                                  (255, 255, 255), "monospace", (0, 0, 0), "Rook")
