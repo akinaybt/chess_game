@@ -3,6 +3,7 @@ from pygame import display, mouse
 
 from const import *
 from move import Move
+from move_operations import CalculateMoves
 from pawn import Pawn
 from knight import Knight
 from bishop import Bishop
@@ -95,6 +96,9 @@ class Board:
         """The function checks if the move is a castling move."""
         return abs(initial.col - final.col) == 2
 
+    def check(self, piece, move):
+        pass
+
     def move(self, piece, move):
         """The function executes a move on the board."""
         initial = move.initial
@@ -174,3 +178,21 @@ class Board:
 
         # kings
         self.squares[row_other][4] = Square(row_other, 4, King(colour))
+
+    def get_king(self, colour):
+        for row in self.squares:
+            for square in row:
+                piece = square.piece
+                if isinstance(piece, King) and piece.colour == colour:
+                    return piece
+        raise ValueError(f"King of colour {colour} not found on the board")
+
+    @staticmethod
+    def game_over(self):
+        """Проверяет, закончена ли игра"""
+        try:
+            self.get_king(colour="white")
+            self.get_king(colour="black")
+        except ValueError:
+            return True
+        return False

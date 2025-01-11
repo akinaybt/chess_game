@@ -1,10 +1,18 @@
 import pygame
 import sys
+
+
+from board import Board
 from const import *
 from game import Game
+from minimax import Minimax
+
 from square import Square
 from move import Move
 from move_operations import CalculateMoves
+
+
+
 
 class Main:
     """
@@ -32,6 +40,7 @@ class Main:
         self.game = Game()
         self.board = self.game.board
         self.dragger = self.game.dragger
+        self.ai_mode = False
 
     def mainloop(self):
 
@@ -80,7 +89,6 @@ class Main:
 
                 # Click release
                 elif event.type == pygame.MOUSEBUTTONUP:
-
                     if self.dragger.dragging:
                         self.dragger.update_mouse_coordinate(event.pos)
 
@@ -96,19 +104,39 @@ class Main:
                             final = Square(released_row, released_col)
                             move = Move(initial, final)
 
-                        # Checking if the move is valid
+                            # Checking if the move is valid
                             if self.board.valid_move(self.dragger.piece, move):
                                 captured = self.board.squares[released_row][released_col].has_piece()
                                 self.board.move(self.dragger.piece, move)
+                                print(self.dragger.initial_row, self.dragger.initial_col)
 
-                                #sounds
+                                # Sounds
                                 self.game.play_sound(captured)
                                 # Show methods
                                 self.game.show_bg(self.screen)
                                 self.game.show_moves(self.screen)
-                                self.game.show_moves(self.screen)
                                 self.game.show_pieces(self.screen)
                                 self.game.next_turn()
+
+                                # AI move
+                                if self.ai_mode and self.game.next_player == 'black':
+                                    _, best_move = Minimax.minimax(self.board, 4, -float('inf'), float('inf'), True)
+                                    if best_move:
+                                        print(best_move)
+                                        self.board.move(self.board.squares[best_move.initial.row][best_move.initial.col].piece, best_move)
+                                        self.game.next_turn()
+                                        # Добавьте вызов методов отображения после хода AI
+                                        self.game.show_bg(self.screen)
+                                        self.game.show_last_move(self.screen)
+                                        self.game.show_moves(self.screen)
+                                        self.game.show_pieces(self.screen)
+                                    else :
+                                        pygame.quit()
+                                        sys.exit()
+
+                                if self.board.game_over(self.board):
+                                    pygame.quit()
+                                    sys.exit()
 
                     self.dragger.undrag_piece()
 
@@ -120,5 +148,13 @@ class Main:
             pygame.display.update()
 
 
+# Mode selection
+print("Select game mode:")
+print("1. Player vs Player")
+print("2. Player vs AI")
+mode = input("Enter your choice (1/2): ")
+
 main = Main()
+if mode == '2':
+    main.ai_mode = True
 main.mainloop()
