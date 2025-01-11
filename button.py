@@ -3,6 +3,7 @@ import pygame
 from pygame import draw
 from const import *
 
+#Screen surface
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 class Button:
@@ -43,6 +44,7 @@ class Button:
 
 
     def showButton(self, screen):
+        """Draws the button on the screen regarding its coordinates."""
         draw.rect(screen, self.fbcolour,
                       (self.x, self.y, self.sx, self.sy))
 
@@ -54,8 +56,8 @@ class Button:
                     (self.x + (self.sx / 2) - (self.fontsize / 2) * (len(self.text) / 2),
                     self.y + (self.sy / 2) - (self.fontsize / 2)))
 
-    #Mouse checking
     def focusCheck(self, mousepos, mouseclick):
+        """Checks if the button has been focused by the users mouse."""
         if (mousepos[0] >= self.x and mousepos[0] <= self.x + self.sx and
                 mousepos[1] >= self.y and mousepos[1] <= self.y + self.sy):
                     self.CurrentState = True
