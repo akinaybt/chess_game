@@ -45,12 +45,6 @@ class Button:
     def showButton(self, screen):
         draw.rect(screen, self.fbcolour,
                       (self.x, self.y, self.sx, self.sy))
-        draw.rect(screen, self.fbcolour,
-                      (self.x, self.y, self.sx, self.sy))
-        draw.rect(screen, self.fbcolour,
-                      (self.x, self.y, self.sx, self.sy))
-        draw.rect(screen, self.fbcolour,
-                      (self.x, self.y, self.sx, self.sy))
 
         #Font object
         textsurface = self.buttonf.render(self.text, False, self.fcolour)
