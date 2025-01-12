@@ -5,14 +5,11 @@ import sys
 from board import Board
 from const import *
 from game import Game
-from minimax import Minimax
+from minimax import Minimax, ChessBoard
 
 from square import Square
 from move import Move
 from move_operations import CalculateMoves
-
-
-
 
 class Main:
     """
@@ -41,6 +38,7 @@ class Main:
         self.board = self.game.board
         self.dragger = self.game.dragger
         self.ai_mode = False
+        self.ai_board = ChessBoard(self.board, False)
 
     def mainloop(self):
 
@@ -120,10 +118,11 @@ class Main:
 
                                 # AI move
                                 if self.ai_mode and self.game.next_player == 'black':
-                                    _, best_move = Minimax.minimax(self.board, 4, -float('inf'), float('inf'), True)
+                                    _, best_move = Minimax.minimax(self.ai_board, 3, -float('inf'), float('inf'), True)
                                     if best_move:
                                         print(best_move)
                                         self.board.move(self.board.squares[best_move.initial.row][best_move.initial.col].piece, best_move)
+                                        #self.board.boardhistoryhashes.append(hash(tuple(tuple(row) for row in self.board.squares)))
                                         self.game.next_turn()
                                         # Добавьте вызов методов отображения после хода AI
                                         self.game.show_bg(self.screen)

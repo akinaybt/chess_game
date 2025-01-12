@@ -46,6 +46,7 @@ class Board:
         self._add_pieces('white')
         self._add_pieces('black')
         self.fill = (0, 0, 0)
+        self.boardhistoryhashes = []
 
     def check_promotion(self, piece, final):
         """The function handles pawn promotion logic."""
@@ -189,7 +190,7 @@ class Board:
 
     @staticmethod
     def game_over(self):
-        """Проверяет, закончена ли игра"""
+        """checks if the game is over."""
         try:
             self.get_king(colour="white")
             self.get_king(colour="black")
