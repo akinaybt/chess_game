@@ -1,16 +1,12 @@
 import pygame
 import sys
-
-
 from board import Board
 from const import *
 from game import Game
 from minimax import Minimax, ChessBoard
-
 from square import Square
 from move import Move
 from move_operations import CalculateMoves
-
 class Main:
     """
        The main application class for the chess game. It initializes the game, handles user interactions,
@@ -124,7 +120,7 @@ class Main:
                                         self.board.move(self.board.squares[best_move.initial.row][best_move.initial.col].piece, best_move)
                                         #self.board.boardhistoryhashes.append(hash(tuple(tuple(row) for row in self.board.squares)))
                                         self.game.next_turn()
-                                        # Добавьте вызов методов отображения после хода AI
+
                                         self.game.show_bg(self.screen)
                                         self.game.show_last_move(self.screen)
                                         self.game.show_moves(self.screen)
@@ -134,6 +130,7 @@ class Main:
                                         sys.exit()
 
                                 if self.board.game_over(self.board):
+                                    print("King is dead")
                                     pygame.quit()
                                     sys.exit()
 
